@@ -5,20 +5,21 @@
 class Episki < Formula
   desc "The official command-line interface for episki"
   homepage "https://episki.com"
-  version "1.0.0"
+  version "1.1.0"
+  license "MIT"
 
   on_macos do
     if Hardware::CPU.intel?
-      url "https://github.com/episki/episki-cli/releases/download/v1.0.0/episki_1.0.0_darwin_amd64.tar.gz"
-      sha256 "52a9d220ae1b131d158012de433003b0cf9cd4113b0321db445aa39779360472"
+      url "https://github.com/episki/episki-cli/releases/download/v1.1.0/episki_1.1.0_darwin_amd64.tar.gz"
+      sha256 "ee652eff3379de0dc3cf862fbc41efffa6608a0635d417c32258040e11ca9b85"
 
       define_method(:install) do
         bin.install "episki"
       end
     end
     if Hardware::CPU.arm?
-      url "https://github.com/episki/episki-cli/releases/download/v1.0.0/episki_1.0.0_darwin_arm64.tar.gz"
-      sha256 "cb497a851b15f02dde68c169cca9f44b3da54344433363718e1bceda5a07b68e"
+      url "https://github.com/episki/episki-cli/releases/download/v1.1.0/episki_1.1.0_darwin_arm64.tar.gz"
+      sha256 "d3d384cfd8f90953c39dc1840bc70b490b1952f4cffed643de3ecdbd3152162c"
 
       define_method(:install) do
         bin.install "episki"
@@ -28,15 +29,15 @@ class Episki < Formula
 
   on_linux do
     if Hardware::CPU.intel? && Hardware::CPU.is_64_bit?
-      url "https://github.com/episki/episki-cli/releases/download/v1.0.0/episki_1.0.0_linux_amd64.tar.gz"
-      sha256 "5e9f52875449bc3bc145313535ba0667f834eda6fa7b49aceecc018fcb1bcc1a"
+      url "https://github.com/episki/episki-cli/releases/download/v1.1.0/episki_1.1.0_linux_amd64.tar.gz"
+      sha256 "ae62e09f45c21f238e3e212b0adefc9d40def8c9ac847cfc9ee55eb89b24dd3c"
       define_method(:install) do
         bin.install "episki"
       end
     end
     if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-      url "https://github.com/episki/episki-cli/releases/download/v1.0.0/episki_1.0.0_linux_arm64.tar.gz"
-      sha256 "c757b8288a4cb8c7ebadb82bd0fcfb8a1990de18f4d6603e639ac150a0c5f592"
+      url "https://github.com/episki/episki-cli/releases/download/v1.1.0/episki_1.1.0_linux_arm64.tar.gz"
+      sha256 "615c32f6982b0cf4fdbde7686d176244cf9dedb8d4348557a22e598032e22962"
       define_method(:install) do
         bin.install "episki"
       end
