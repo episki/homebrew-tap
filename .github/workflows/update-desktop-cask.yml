@@ -1,0 +1,63 @@
+name: Update desktop cask
+
+# Points Casks/episki.rb at the latest published episki/desktop release.
+#
+# Polled rather than triggered by the desktop release workflow: a push from
+# there would need a token with write access to this repo stored in episki/
+# desktop, and GoReleaser already pushes the CLI formula here the same way. An
+# hourly check needs nothing beyond this repo's own GITHUB_TOKEN, and the app
+# updates itself anyway, so the cask only has to be current for new installs.
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-desktop-cask
+
+jobs:
+  update:
+    # macOS so `brew style` can check the rewritten cask before it is pushed.
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Update cask to the latest release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          cask=Casks/episki.rb
+
+          # /releases/latest skips drafts and prereleases, so a release is only
+          # picked up once the desktop workflow has verified and published it.
+          release=$(gh api repos/episki/desktop/releases/latest)
+          version=$(jq -r '.tag_name | ltrimstr("v")' <<<"$release")
+          # The asset name has no version in it (episki/desktop electron-builder.yml).
+          digest=$(jq -r '.assets[] | select(.name == "episki-mac.dmg") | .digest // empty' <<<"$release")
+
+          if [ -z "$digest" ]; then
+            echo "::warning::Release $version has no episki-mac.dmg; leaving the cask alone."
+            exit 0
+          fi
+          sha256=${digest#sha256:}
+
+          current=$(sed -n 's/^  version "\(.*\)"$/\1/p' "$cask")
+          if [ "$current" = "$version" ]; then
+            echo "Cask already at $version."
+            exit 0
+          fi
+
+          sed -i '' \
+            -e "s/^  version \".*\"$/  version \"$version\"/" \
+            -e "s/^  sha256 \".*\"$/  sha256 \"$sha256\"/" \
+            "$cask"
+          brew style "$cask"
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -am "Update episki desktop cask to $version"
+          git push
