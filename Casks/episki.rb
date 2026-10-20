@@ -6,8 +6,7 @@ cask "episki" do
   version "1.0.1"
   sha256 "e50edd5b033cdd1dacaf353ae27ace3c798eda841cf819aa571899675546b3fa"
 
-  url "https://github.com/episki/desktop/releases/download/v#{version}/episki-mac.dmg",
-      verified: "github.com/episki/desktop/"
+  url "https://github.com/episki/desktop/releases/download/v#{version}/episki-mac.dmg"
   name "episki"
   desc "Desktop app for the episki GRC platform"
   homepage "https://episki.com/download"
