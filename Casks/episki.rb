@@ -3,8 +3,8 @@
 # The CLI is the formula of the same name (Formula/episki.rb, published by
 # GoReleaser), so the app installs with `brew install --cask episki/tap/episki`.
 cask "episki" do
-  version "1.0.1"
-  sha256 "e50edd5b033cdd1dacaf353ae27ace3c798eda841cf819aa571899675546b3fa"
+  version "1.0.2"
+  sha256 "d4db87417431b72ddbef7beab7e26d814097dbde8d469d6908e06ea92ac5dd7f"
 
   url "https://github.com/episki/desktop/releases/download/v#{version}/episki-mac.dmg"
   name "episki"
